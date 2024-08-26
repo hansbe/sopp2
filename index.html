@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protected Mapbox GL JS Map</title>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+        #password-form {
+            text-align: center;
+        }
+        #password {
+            padding: 10px;
+            font-size: 16px;
+        }
+        #submit {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Password Form -->
+    <div id="password-form">
+        <h2>Password Required</h2>
+        <input type="password" id="password" placeholder="Enter password" />
+        <button id="submit">Submit</button>
+    </div>
+
+    <!-- Map Container (Hidden by default) -->
+    <div id='map' style='display:none;'></div>
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js'></script>
+    <script>
+        // Set the correct password
+        const correctPassword = "SoppErGodt"; // Replace with your desired password
+
+        // Handle form submission
+        document.getElementById('submit').onclick = function() {
+            const enteredPassword = document.getElementById('password').value;
+            if (enteredPassword === correctPassword) {
+                document.getElementById('password-form').style.display = 'none';
+                document.getElementById('map').style.display = 'block';
+
+                // Initialize the map
+                mapboxgl.accessToken = 'pk.eyJ1IjoiY29zc29uZWlkZSIsImEiOiJjbTA5c2hwem0xa2JqMnFzaHg0bHBwbnB4In0.5se26YB4sddwkMWlsqDzmQ';
+                const map = new mapboxgl.Map({
+                    container: 'map',
+                    style: 'mapbox://styles/cossoneide/cm09sjvpl00mv01qo951t6isg',
+                    center: [10.7522, 59.9139], // Example coordinates (Oslo, Norway)
+                    zoom: 10
+                });
+                
+                map.addControl(new mapboxgl.NavigationControl());
+                
+                new mapboxgl.Marker()
+                    .setLngLat([10.7522, 59.9139])
+                    .addTo(map);
+            } else {
+                alert('Incorrect password. Please try again.');
+            }
+        }
+    </script>
+
+</body>
+</html>
